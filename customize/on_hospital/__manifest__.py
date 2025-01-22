@@ -1,6 +1,6 @@
 {
-    "name": "Hospital Management SystemV2",
-    "author": "NLS V2",
+    "name": "Hospital Management SystemV3",
+    "author": "NLS V3",
     "category_id": "Hospital",
     "license": "AGPL-3",
     "summary": "Hospital Management System",
