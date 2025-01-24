@@ -5,6 +5,7 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <list string="Appointments">
+                <field name="reference" readonly="True"/>
                 <field name="patient_id"/>
                 <field name="date_appointment" optional="show"/>
                 <field name="note" optional="hide"/>
@@ -20,6 +21,7 @@
                 <sheet>
                     <group>
                         <group>
+                            <field name="reference" readonly="True"/>
                             <field name="patient_id"/>
                             <field name="date_appointment"/>
 
