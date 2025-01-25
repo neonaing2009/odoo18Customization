@@ -20,10 +20,10 @@
         <field name="arch" type="xml">
             <form string="Appointments">
                 <header>
-                    <button name="action_confirm" type="object" string="Confirm"/>
+                    <button name="action_confirm" type="object" string="Confirm" invisible="state != 'draft'"/>
                     <button name="action_ongoing" type="object" string="Ongoing" invisible="state != 'confirmed'"/>
-                    <button name="action_done" type="object" string="Done" invisible="state != 'confired'"/>
-                    <button name="action_cancel" type="object" string="Cancel"/>
+                    <button name="action_done" type="object" string="Done" invisible="state != 'ongoing'"/>
+                    <button name="action_cancel" type="object" string="Cancel" invisible="state == 'done'"/>
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
