@@ -7,6 +7,7 @@
             <list string="Appointments">
                 <field name="reference" readonly="True"/>
                 <field name="patient_id"/>
+                <field name="partner_id"/>
                 <field name="date_appointment" optional="show"/>
                 <field name="note" optional="hide"/>
             </list>
@@ -18,11 +19,19 @@
         <field name="model">hospital.appointment</field>
         <field name="arch" type="xml">
             <form string="Appointments">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm"/>
+                    <button name="action_ongoing" type="object" string="Ongoing" invisible="state != 'confirmed'"/>
+                    <button name="action_done" type="object" string="Done" invisible="state != 'confired'"/>
+                    <button name="action_cancel" type="object" string="Cancel"/>
+                    <field name="state" widget="statusbar" />
+                </header>
                 <sheet>
                     <group>
                         <group>
                             <field name="reference" readonly="True"/>
                             <field name="patient_id"/>
+                            <field name="partner_id"/>
                             <field name="date_appointment"/>
 
                         </group>
