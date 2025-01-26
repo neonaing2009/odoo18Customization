@@ -10,6 +10,7 @@
                 <field name="partner_id"/>
                 <field name="date_appointment" optional="show"/>
                 <field name="note" optional="hide"/>
+                <field name="state" optional="hide"/>
             </list>
         </field>
     </record>
