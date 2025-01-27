@@ -4,6 +4,7 @@ class HospitalAppointment(models.Model):
     _name = 'hospital.appointment'
     _inherit = ['mail.thread']
     _description = 'Hospital Appointment'
+    _rec_names_search = ['reference','patient_id']
     _rec_name = 'patient_id'
 
     reference = fields.Char(string='Reference',default='New', tracking=True)
@@ -16,6 +17,8 @@ class HospitalAppointment(models.Model):
         ('done','Done'),('cancel','Cancelled')
     ], default='draft', tracking=True)
     appointment_line_ids = fields.One2many('hospital.appointment.line','appointment_id', string="Lines")
+    total_qty = fields.Float(compute='_compute_total_qty',string="Total Quantity", store=True)
+
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -23,6 +26,19 @@ class HospitalAppointment(models.Model):
             if not vals.get('reference') or vals.get('reference') == 'New':
                 vals['reference'] = self.env['ir.sequence'].next_by_code('hospital.appointment')
         return super().create(vals_list)
+
+    @api.depends('appointment_line_ids', 'appointment_line_ids.qty')
+    def _compute_total_qty(self):
+        for rec in self:
+            #total_qty = 0
+            #for line in rec.appointment_line_ids:
+                #total_qty += line.qty
+            #rec.total_qty = total_qty
+            rec.total_qty = sum(rec.appointment_line_ids.mapped('qty'))
+
+    def _compute_display_name(self):
+        for rec in self:
+            rec.display_name = f"[{rec.reference}]{rec.patient_id.name}"
 
     def action_confirm(self):
         for rec in self:
@@ -45,5 +61,5 @@ class HospitalAppointmentLine(models.Model):
     _description = 'Hospital Appointment Line'
 
     appointment_id = fields.Many2one('hospital.appointment', string="Appointment")
-    product_id = fields.Many2one('product.product', string="Product")
+    product_id = fields.Many2one('product.product', string="Product", required=True)
     qty = fields.Float(string="Quantity")

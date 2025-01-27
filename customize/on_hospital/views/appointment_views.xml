@@ -40,16 +40,32 @@
 
                         </group>
                         <group>
-                            <field name="note"/>
+                            <field name="total_qty"/>
 
                         </group>
                     </group>
-                    <field name="appointment_line_ids" widget="one2many_tags">
-                        <list editable="bottom">
-                            <field name="product_id"/>
-                            <field name="qty"/>
-                        </list>
-                    </field>
+                    <notebook>
+                        <page name="appointment_lines" string="Lines">
+                            <field name="appointment_line_ids" widget="one2many_tags">
+                                <list editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="qty"/>
+                                </list>
+                                <form>
+                                    <sheet>
+                                        <group>
+                                            <field name="product_id"/>
+                                            <field name="qty"/>
+                                        </group>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+                        <page name="other_info" string="Other Info">
+                            <field name="note"/>
+                        </page>
+                    </notebook>
+
 
                 </sheet>
                 <chatter />
