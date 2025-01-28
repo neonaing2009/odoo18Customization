@@ -7,7 +7,11 @@
             <list string="Appointment Lines" editable="top">
                 <field name="appointment_id"/>
                 <field name="product_id"/>
+                <field name="price"/>
+                <field name="discount"/>
                 <field name="qty"/>
+                <field name="tax"/>
+                <field name="line_total_amount" readonly="True"/>
 
             </list>
         </field>
