@@ -12,11 +12,12 @@ class HospitalPatient(models.Model):
 
     tag_ids = fields.Many2many('patient.tag', 'patient_tag_rel', 'patient_id','tag_id', string="Tags")
 
-    def unlink(self):
+    @api.ondelete(at_uninstall=False)
+    def _check_patient_appointment(self):
         for rec in self:
             domain = [('patient_id', '=', rec.id)]
             appointments = self.env['hospital.appointment'].search(domain)
             if appointments:
                 raise ValidationError(_("You cannot delete the patient now."
-                                        "\nAppointments existing for this patient: %s" % rec.name))
-        return super().unlink()
+                                        "\nAppointments existing for this patient:"))
+
