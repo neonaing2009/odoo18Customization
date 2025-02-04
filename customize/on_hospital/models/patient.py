@@ -1,4 +1,5 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import ValidationError
 
 class HospitalPatient(models.Model):
     _name = 'hospital.patient'
@@ -10,3 +11,12 @@ class HospitalPatient(models.Model):
     gender = fields.Selection([('male',"Male"),('female',"Female")], string='Gender', tracking=True)
 
     tag_ids = fields.Many2many('patient.tag', 'patient_tag_rel', 'patient_id','tag_id', string="Tags")
+
+    def unlink(self):
+        for rec in self:
+            domain = [('patient_id', '=', rec.id)]
+            appointments = self.env['hospital.appointment'].search(domain)
+            if appointments:
+                raise ValidationError(_("You cannot delete the patient now."
+                                        "\nAppointments existing for this patient: %s" % rec.name))
+        return super().unlink()

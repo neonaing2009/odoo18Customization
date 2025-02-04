@@ -1,6 +1,7 @@
 from odoo import api, fields, models
 
 
+
 class HospitalAppointment(models.Model):
     _name = 'hospital.appointment'
     _inherit = ['mail.thread']
@@ -9,7 +10,7 @@ class HospitalAppointment(models.Model):
     _rec_name = 'patient_id'
 
     reference = fields.Char(string='Reference',default='New', tracking=True)
-    patient_id = fields.Many2one('hospital.patient', string="Patient Name", tracking=True)
+    patient_id = fields.Many2one('hospital.patient', string="Patient Name", tracking=True, required=False, ondelete='restrict')#restrict without delete or set null delete with patient without appointment #cascade with appointment
     partner_id = fields.Many2one('res.partner', string="Sales Partner Name", tracking=True)
     date_appointment = fields.Date(string="Date Appointment", tracking=True)
     note = fields.Text(string="Note", tracking=True)
@@ -95,3 +96,4 @@ class HospitalAppointmentLine(models.Model):
             line_total = 0
             line_total = (rec.qty * rec.price) *(1-(rec.discount/100))
             rec.line_total_amount = line_total
+    
