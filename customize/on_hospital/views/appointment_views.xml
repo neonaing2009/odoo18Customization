@@ -77,7 +77,16 @@
                             <field name="note"/>
                         </page>
                     </notebook>
+                    <group>
+                        <group>
 
+                        </group>
+                        <group>
+                            <field name="total_qty"/>
+                            <field name="total_tax_amount"/>
+                            <field name="total_amount"/>
+                        </group>
+                    </group>
 
                 </sheet>
                 <chatter />
