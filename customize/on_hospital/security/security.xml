@@ -17,5 +17,6 @@
             <field name="implied_ids" eval="[(4, ref('on_hospital.group_hospital_receptionist'))]" />
             <field name="comment">the user will have access to patient details</field>
         </record>
+
     </data>
 </odoo>

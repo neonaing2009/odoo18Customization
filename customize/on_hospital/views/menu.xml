@@ -37,6 +37,7 @@
 
     <menuitem id="menu_configuration"
               name="Configuration"
+              groups="on_hospital.group_hospital_doctors"
               parent="menu_hospital_root"
 
     />

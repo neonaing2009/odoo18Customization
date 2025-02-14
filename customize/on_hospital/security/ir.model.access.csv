@@ -2,4 +2,5 @@
 access_hospital_patient,access.hospital.patient,model_hospital_patient,on_hospital.group_hospital_receptionist,1,1,1,1
 access_hospital_appointment,access.hospital.appointment,model_hospital_appointment,on_hospital.group_hospital_receptionist,1,1,1,1
 access_hospital_appointment_line,access.hospital.appointment.line,model_hospital_appointment_line,on_hospital.group_hospital_receptionist,1,1,1,1
-access_patient_tag,access.patient.tag,model_patient_tag,on_hospital.group_hospital_receptionist,1,1,1,1
+access_patient_tag_receptionist,access.patient.tag.receptionist,model_patient_tag,on_hospital.group_hospital_receptionist,1,1,1,0
+access_patient_tag_doctors,access.patient.tag.doctors,model_patient_tag,on_hospital.group_hospital_doctors,1,1,1,1

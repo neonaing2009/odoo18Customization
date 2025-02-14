@@ -38,6 +38,27 @@
         </field>
     </record>
 
+    <record id="view_hospital_patient_search" model="ir.ui.view">
+        <field name="name">hospital.patient.search</field>
+        <field name="model">hospital.patient</field>
+        <field name="arch" type="xml">
+            <search string="Patients">
+                <field name="name"/>
+                <field name="date_of_birth"/>
+                <field name="gender"/>
+                <filter string="Male" name="male_patients" domain="[('gender','=','male')]"/>
+                <separator/>
+                <filter string="Female" name="female_patients" domain="[('gender','=','female')]"/>
+                <group expand="1" string="Group By">
+                    <filter name="group_by_gender" string="Gender" context="{'group_by' : 'gender'}"/>
+                </group>
+                <searchpanel>
+                    <field name="gender" string="Gender" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
     <record id="action_hospital_patient" model="ir.actions.act_window">
         <field name="name">Patients</field>
         <field name="res_model">hospital.patient</field>
