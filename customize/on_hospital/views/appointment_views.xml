@@ -51,6 +51,7 @@
                         <page name="appointment_lines" string="Lines">
                             <field name="appointment_line_ids" widget="one2many_tags">
                                 <list editable="bottom">
+                                    <field name="line_id" readonly="True" />
                                     <field name="product_id"/>
                                     <field name="price"/>
                                     <field name="discount"/>
@@ -62,6 +63,7 @@
                                 <form>
                                     <sheet>
                                         <group>
+                                            <field name="line_id" readonly="True" />
                                             <field name="product_id"/>
                                             <field name="price"/>
                                             <field name="discount"/>
