@@ -45,8 +45,11 @@ class HospitalAppointment(models.Model):
     def _compute_total_amount(self):
         for rec in self:
             total_amount = 0
+            number = 1 # Line ID
             for line in rec.appointment_line_ids:
                 total_amount += (line.line_total_amount *(line.tax/100) ) + line.line_total_amount
+                line.line_id = number #Line ID
+                number += 1 #Line ID
             rec.total_amount = total_amount
 
     @api.depends('appointment_line_ids')
@@ -87,6 +90,7 @@ class HospitalAppointmentLine(models.Model):
     qty = fields.Float(string="Quantity")
     price = fields.Float(string="Price")
     discount = fields.Float(string="Disc %")
+    line_id = fields.Integer(string="ID")
     line_total_amount = fields.Float(compute='_compute_line_total',string="Line Total Amount", store=True)
     tax = fields.Float(string="Tax")
 
