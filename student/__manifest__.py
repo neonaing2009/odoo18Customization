@@ -2,7 +2,7 @@
 {
     'name': "student",
 
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
+    'summary': "Student Module purpose",
 
     'description': """
 Long description of module's purpose
@@ -22,13 +22,13 @@ Long description of module's purpose
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+        'security/ir.model.access.csv',
+        'views/student_views.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [
-        'demo/demo.xml',
+        #'demo/demo.xml',
     ],
 }
 
