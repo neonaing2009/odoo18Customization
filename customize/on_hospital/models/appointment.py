@@ -89,6 +89,7 @@ class HospitalAppointmentLine(models.Model):
     product_id = fields.Many2one('product.product', string="Product", required=True)
     qty = fields.Float(string="Quantity")
     price = fields.Float(string="Price")
+    unit_price = fields.Many2one("product.template", string="Sales Price")
     discount = fields.Float(string="Disc %")
     line_id = fields.Integer(string="ID")
     line_total_amount = fields.Float(compute='_compute_line_total',string="Line Total Amount", store=True)
