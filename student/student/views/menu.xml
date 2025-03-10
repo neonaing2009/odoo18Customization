@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <menuitem id="menu_student_root"
+              name="SMS"
+              sequence="39"
+    />
+
+    <menuitem id="menu_frontdesk_student"
+              name="Front Desk Student"
+              parent="menu_student_root"
+    />
+
+    <menuitem id="menu_student_list"
+              name="Students"
+              parent="menu_frontdesk_student"
+              action="action_student_list"
+    />
+</odoo>

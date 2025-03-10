@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
 
-class student(models.Model):
+class Student(models.Model):
      _name = 'student.list'
      _description = 'student.list'
 
-#     name = fields.Char()
-#     value = fields.Integer()
+     name = fields.Char(string="Name", require=True)
+     address = fields.Char(string="Address")
+
 #     value2 = fields.Float(compute="_value_pc", store=True)
 #     description = fields.Text()
 #

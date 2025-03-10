@@ -11,9 +11,10 @@
     'depends': ['base'],
 
     # always loaded
-    'data': [
-        # 'security/ir.model.access.csv',
+    "data": [
+        'security/ir.model.access.csv',
         'views/student_views.xml',
+        'views/menu.xml',
 
     ],
 
