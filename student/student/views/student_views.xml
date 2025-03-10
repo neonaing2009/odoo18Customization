@@ -7,6 +7,7 @@
             <list string="Students">
                 <field name="name"/>
                 <field name="address"/>
+                <field name="gender"/>
             </list>
         </field>
     </record>
@@ -21,7 +22,9 @@
                         <group>
                             <field name="name"/>
                             <field name="address"/>
-
+                        </group>
+                        <group>
+                            <field name="gender"/>
                         </group>
 
                     </group>
