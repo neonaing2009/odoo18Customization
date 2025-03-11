@@ -10,7 +10,8 @@
     # any module necessary for this one to work correctly
     'depends': [
         'mail',
-        'base'
+        'base',
+
     ],
 
     # always loaded
