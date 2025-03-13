@@ -12,7 +12,12 @@
                 <field name="address"/>
                 <field name="is_paid"/>
                 <field name="product_id"/>
+
+                <field name="otherprice" force_save="1"/>
+                <field name="product_default_code"/>
                 <field name="product_tmp_id"/>
+                <field name="default_code"/>
+                <field name="ref_field_id"/>
 
                 <field name="location_html"/>
                 <field name="address_html" options="{'sandboxedPreview':true}"/>
@@ -35,7 +40,12 @@
                             <field name="address"/>
                             <field name="is_paid"/>
                             <field name="product_id"/>
+
+                            <field name="otherprice" force_save="1"/>
+                            <field name="product_default_code"/>
                             <field name="product_tmp_id"/>
+                            <field name="default_code"/>
+                            <field name="ref_field_id"/>
 
                         </group>
                         <group>

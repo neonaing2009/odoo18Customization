@@ -7,6 +7,7 @@
             <list string="Appointments">
                 <field name="reference" readonly="True"/>
                 <field name="patient_id"/>
+                <field name="date_of_birth"/>
                 <field name="partner_id"/>
                 <field name="date_appointment" optional="show"/>
                 <field name="note" optional="hide"/>
@@ -35,6 +36,7 @@
                         <group>
                             <field name="reference" readonly="True"/>
                             <field name="patient_id"/>
+                            <field name="date_of_birth"/>
                             <field name="partner_id"/>
                             <field name="date_appointment"/>
 
@@ -66,6 +68,7 @@
                                             <field name="line_id" readonly="True" />
                                             <field name="product_id"/>
                                             <field name="price"/>
+
                                             <field name="discount"/>
                                             <field name="qty"/>
                                             <field name="tax"/>
@@ -106,6 +109,7 @@
                 <field name="reference" filter_domain="['|', ('reference', 'ilike', self), ('patient_id', 'ilike', self)]" string="Joined Filter"/>
                 <field name="reference"/>
                 <field name="patient_id"/>
+                <field name="date_of_birth"/>
                 <group expand="1" string="Group By">
                     <filter name="group_by_patient" string="Patient" context="{'group_by' : 'patient_id'}"/>
                 </group>

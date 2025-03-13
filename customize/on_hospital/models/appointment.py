@@ -20,6 +20,7 @@ class HospitalAppointment(models.Model):
     ], default='draft', tracking=True)
     appointment_line_ids = fields.One2many('hospital.appointment.line','appointment_id', string="Lines")
     total_qty = fields.Float(compute='_compute_total_qty',string="Total Quantity", store=True)
+    date_of_birth = fields.Date(string="BOD", related='patient_id.date_of_birth')
     total_amount = fields.Float(compute='_compute_total_amount',string="Total Amount", store=True)
     total_tax_amount = fields.Float(compute='_compute_total_tax',string="Tax Amount", store=True)
     #line_total_amount = fields.Float(compute='_compute_line_total_amount',string="Total Amount", store=True)
@@ -86,10 +87,11 @@ class HospitalAppointmentLine(models.Model):
     _description = 'Hospital Appointment Line'
 
     appointment_id = fields.Many2one('hospital.appointment', string="Appointment")
-    product_id = fields.Many2one('product.product', string="Product", required=True)
+    product_id = fields.Many2one('product.template', string="Product", required=True)
     qty = fields.Float(string="Quantity")
-    price = fields.Float(string="Price")
-    unit_price = fields.Many2one("product.template", string="Sales Price")
+    price =fields.Float(string="Price", compute='_compute_price', readonly=False, store=True)
+    #unit_price = fields.Float(string="Sales Price", compute='_compute_price', readonly=False, store=True)
+    origin_price = fields.Float(string="Origin Price",related='product_id.list_price', readonly=False, store=True)
     discount = fields.Float(string="Disc %")
     line_id = fields.Integer(string="ID")
     line_total_amount = fields.Float(compute='_compute_line_total',string="Line Total Amount", store=True)
@@ -101,4 +103,8 @@ class HospitalAppointmentLine(models.Model):
             line_total = 0
             line_total = (rec.qty * rec.price) *(1-(rec.discount/100))
             rec.line_total_amount = line_total
-    
+
+    @api.depends('product_id.list_price')
+    def _compute_price(self):
+        for rec in self:
+            rec.price = rec.product_id.list_price

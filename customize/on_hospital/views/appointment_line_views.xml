@@ -9,7 +9,7 @@
                 <field name="appointment_id"/>
                 <field name="product_id"/>
                 <field name="price"/>
-                <field name="unit_price"/>
+                <!-- <field name="unit_price"/> -->
                 <field name="discount"/>
                 <field name="qty"/>
                 <field name="tax"/>
