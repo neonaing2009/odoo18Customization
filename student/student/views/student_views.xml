@@ -18,6 +18,13 @@
                 <field name="product_tmp_id"/>
                 <field name="default_code"/>
                 <field name="ref_field_id"/>
+                <field name="binary_field" filename="binary_field_name"/>
+                <field name="binary_field_name" invisible="1"/>
+                <field name="binary_field_many" widget="many2many_binary"/>
+                <field name="my_currency_id"/>
+                <field name="amount"/>
+                <!-- <field name="student_image" nolabel="1"/> -->
+                <field name="student_image" widget="image" class="oe_avatar" nolabel="1"/>
 
                 <field name="location_html"/>
                 <field name="address_html" options="{'sandboxedPreview':true}"/>
@@ -31,6 +38,9 @@
         <field name="model">student.list</field>
         <field name="arch" type="xml">
             <form string="Students">
+                <header>
+                    <button name="custom_method" type="object" string="Custom Method"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
@@ -46,6 +56,13 @@
                             <field name="product_tmp_id"/>
                             <field name="default_code"/>
                             <field name="ref_field_id"/>
+                            <field name="binary_field" filename="binary_field_name"/>
+                            <field name="binary_field_name" invisible="1"/>
+                            <field name="binary_field_many" widget="many2many_binary"/>
+                            <field name="my_currency_id"/>
+                            <field name="amount"/>
+                            <!-- <field name="student_image" nolabel="1"/> -->
+                            <field name="student_image" widget="image" class="oe_avatar" nolabel="1"/>
 
                         </group>
                         <group>

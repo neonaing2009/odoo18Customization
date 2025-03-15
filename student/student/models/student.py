@@ -25,6 +25,15 @@ class Student(models.Model):
                                 ('product.template','Product Template'),
                                 ('product.product','Product Information')])
 
+     binary_field = fields.Binary('Binary Field')
+     binary_field_name = fields.Char('Binary Field Name')
+     binary_field_many = fields.Many2many('ir.attachment', string='Muti Files')
+     my_currency_id = fields.Many2one('res.currency', string='(My Currency)')
+     #currency_id = fields.Many2one('res.currency', string='Currency')
+     amount = fields.Monetary(string='Amount', currency_field='my_currency_id')
+
+     student_image = fields.Image(string='Student Image', max_width=128, max_height=128)
+
 
      @api.depends('product_tmp_id.list_price')
      def _compute_price(self):
@@ -34,6 +43,25 @@ class Student(models.Model):
      def _compute_dummy(self):
          pass
 
+     def json_data_store(self):
+         self.student_data ={"name":self.name,
+                             "address":self.address,
+                             "gender":self.gender,
+                             "address_html":self.address_html,
+                             "location_html":self.location_html,
+                             "is_paid":self.is_paid,
+                             "product_id":self.product_id,
+                             "prices":self.price,
+                             "otherprice":self.otherprice,
+                             "ref_field_id":self.ref_field_id,
+                             "binary_field":self.binary_field,
+                             "binary_field_name":self.binary_field_name,
+                             "my_currency_id":self.my_currency_id,
+                             "amount":self.amount,
+                             "student_image":self.student_image
+                             }
+     def custom_method(self):
+         print(self.json_data_store())
 
 #     value2 = fields.Float(compute="_value_pc", store=True)
 #     description = fields.Text()

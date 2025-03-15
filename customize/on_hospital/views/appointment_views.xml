@@ -46,6 +46,7 @@
                             <field name="total_tax_amount"/>
                             <field name="total_amount"/>
                             <field name="create_uid"/>
+                            <field name="attachment" widget="many2many_binary"/>
 
                         </group>
                     </group>

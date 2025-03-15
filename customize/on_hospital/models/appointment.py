@@ -23,6 +23,7 @@ class HospitalAppointment(models.Model):
     date_of_birth = fields.Date(string="BOD", related='patient_id.date_of_birth')
     total_amount = fields.Float(compute='_compute_total_amount',string="Total Amount", store=True)
     total_tax_amount = fields.Float(compute='_compute_total_tax',string="Tax Amount", store=True)
+    attachment = fields.Many2many('ir.attachment', string='Upload Files')
     #line_total_amount = fields.Float(compute='_compute_line_total_amount',string="Total Amount", store=True)
 
 
