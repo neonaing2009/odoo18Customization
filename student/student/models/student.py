@@ -44,7 +44,7 @@ class Student(models.Model):
          pass
 
      def json_data_store(self):
-         self.student_data ={"name":self.name,
+         self.student_data =[{"name":self.name,
                              "address":self.address,
                              "gender":self.gender,
                              "address_html":self.address_html,
@@ -59,10 +59,40 @@ class Student(models.Model):
                              "my_currency_id":self.my_currency_id,
                              "amount":self.amount,
                              "student_image":self.student_image
-                             }
+                             }]
      def custom_method(self):
-         print(self.json_data_store())
+         print(self.read())
+         print(self.env['student.list'].read())
+         #total_records = self.env['student.list'].search_count([('id','>',10)])
+         #print(total_records)
+         #print(self.search([], limit=5, offset=0))
+         #print(self.search([])) #Current Model Search
+         #print(self.env["student.list"].search([])) #custom model or difference model
+         #print(self.search([], order="name"))
+         #self.json_data_store()
+         #records = self.search([("amount","=",3000)])
+         #self.print_table(records)
+         #in operator
+         #=("a","b","c","d")
+         #records = self.search([("name","in",("Wah","wah","Khine"))])
+         #self.print_table(records)
+         # search(domain, limit, offset, order)
+         #[condition, more conditions]
 
+     def duplicate_records(self):
+         duplicate_record = self.copy()
+
+     def copy(self, default=None):
+        rtn = super(Student, self).copy(default=default)
+        return rtn
+
+     def print_table(self, records):
+         print(f"Total Records Found :- {len(records)}")
+         print("ID      Name        Amount")
+         for rec in records:
+             print(f"{rec.id}       {rec.name}      {rec.amount}")
+         print("")
+         print("")
 #     value2 = fields.Float(compute="_value_pc", store=True)
 #     description = fields.Text()
 #

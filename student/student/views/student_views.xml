@@ -40,6 +40,8 @@
             <form string="Students">
                 <header>
                     <button name="custom_method" type="object" string="Custom Method"/>
+                    <button name="duplicate_records" type="object" string="Duplicate Records"/>
+                    <button name="copy" type="object" string="Copy"/>
                 </header>
                 <sheet>
                     <group>
