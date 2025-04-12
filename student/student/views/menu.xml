@@ -23,5 +23,11 @@
               action="action_school_list"
     />
 
+    <menuitem id="menu_hobby"
+              name="Hobby"
+              parent="menu_frontdesk"
+              action="action_hobby_list"
+    />
+
 
 </odoo>

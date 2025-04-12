@@ -18,6 +18,7 @@
         'security/ir.model.access.csv',
         'views/student_views.xml',
         'views/school_views.xml',
+        'views/hobby_views.xml',
         'views/menu.xml',
 
     ]

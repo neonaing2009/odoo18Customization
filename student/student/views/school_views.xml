@@ -7,6 +7,7 @@
             <list string="Schools">
                 <field name="id" readonly="1"/>
                 <field name="name" placeholder="Enter Your Name" />
+                <field name="student_list"/>
 
 
 
@@ -19,7 +20,9 @@
         <field name="model">school.list</field>
         <field name="arch" type="xml">
             <form string="School">
+                <field name="id" readonly="1"/>
                 <field name="name"/>
+                <field name="student_list"/>
 
             </form>
         </field>

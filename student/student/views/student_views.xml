@@ -7,11 +7,13 @@
             <list string="Students">
                 <field name="id" readonly="1"/>
                 <field name="name" placeholder="Enter Your Name" />
+                <field name="school_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="hobby_list" options="{'no_create': True, 'no_create_edit':True}"/>
 
                 <field name="gender"/>
                 <field name="address"/>
                 <field name="is_paid"/>
-                <field name="product_id"/>
+                <field name="product_id" options="{'no_create': True, 'no_create_edit':True}"/>
 
                 <field name="otherprice" force_save="1"/>
                 <field name="product_default_code"/>
@@ -48,10 +50,12 @@
                         <group>
                             <field name="id" readonly="1"/>
                             <field name="name" placeholder="Enter Your Name" />
+                            <field name="school_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="hobby_list" options="{'no_create': True, 'no_create_edit':True}"/>
                             <field name="gender"/>
                             <field name="address"/>
                             <field name="is_paid"/>
-                            <field name="product_id"/>
+                            <field name="product_id" options="{'no_create': True, 'no_create_edit':True}"/>
 
                             <field name="otherprice" force_save="1"/>
                             <field name="product_default_code"/>

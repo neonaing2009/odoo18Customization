@@ -5,6 +5,7 @@ class School(models.Model):
     _description = "This is school profile."
 
     name = fields.Char("Name")
+    student_list = fields.One2many('student.list','school_id')
 
 class Student(models.Model):
      _name = 'student.list'
@@ -13,12 +14,14 @@ class Student(models.Model):
 
      name = fields.Char(string="Name", required=True)
      address = fields.Text(string="Address")
-     school_id = fields.Many2one("wb.school")
+
+     hobby_list = fields.Many2many('student.hobby','student_hobby_listrelation','student_id','hobby_id')
+     school_id = fields.Many2one('school.list',string='School Name')
      gender = fields.Selection([('male', "Male"), ('female', "Female")], string='Gender')
      address_html = fields.Html(string="Address Html")
      location_html = fields.Html(string="Location Html")
      is_paid = fields.Boolean(string="Paid")
-     product_id = fields.Many2one('product.product', string="Product", required=True)
+     product_id = fields.Many2one('product.product', string="Product", domain="[('default_code','!=','')]",required=True)
      product_tmp_id = fields.Many2one('product.template', string="Product Template Id")
      product_default_code = fields.Char(string="Refer", related='product_id.default_code')
      #price = fields.Float(string="Sale Price", related='product_tmp_id.list_price', readonly=False, store=True,)
@@ -158,3 +161,8 @@ class Student(models.Model):
 #         for record in self:
 #             record.value2 = float(record.value) / 100
 
+class Hobby(models.Model):
+    _name = "student.hobby"
+    _description = "This is student hobbies."
+
+    name = fields.Char("Name")
