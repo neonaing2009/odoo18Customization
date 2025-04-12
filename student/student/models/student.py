@@ -1,5 +1,10 @@
 from odoo import models, fields, api
 
+class School(models.Model):
+    _name = 'school.list'
+    _description = "This is school profile."
+
+    name = fields.Char("Name")
 
 class Student(models.Model):
      _name = 'student.list'
@@ -8,6 +13,7 @@ class Student(models.Model):
 
      name = fields.Char(string="Name", required=True)
      address = fields.Text(string="Address")
+     school_id = fields.Many2one("wb.school")
      gender = fields.Selection([('male', "Male"), ('female', "Female")], string='Gender')
      address_html = fields.Html(string="Address Html")
      location_html = fields.Html(string="Location Html")
@@ -61,8 +67,51 @@ class Student(models.Model):
                              "student_image":self.student_image
                              }]
      def custom_method(self):
-         print(self.read())
-         print(self.env['student.list'].read())
+         print("Hello Click")
+
+         # select * from student where shcool_id = 1;
+         # search_read(
+         #     domain,
+         #     fields[id, name, student_id],
+         #     offset=101,
+         #     limit=100,
+         #     order="",
+         #     load=None
+         # )
+
+         # sale_obj = self.env['sale.order.line']
+         # total_sales_based_on_state = sale_obj.read_group([("order_id.state","=","sale")],
+         #                                                  ["product_id","product_uom_qty:avg"],
+         #                                                  ["product_id"])
+         # for sale in total_sales_based_on_state:
+         #     print(sale)
+         # sales_obj = self.env['sale.order']
+         # total_sales_based_on_state = sales_obj.read_group([("state","=","sale")],
+         #                                                   ["partner_id","amount_total:sum"],
+         #                                                   ["partner_id"])
+         # for sale in total_sales_based_on_state:
+         #     print(sale)
+
+         # total_sales_based_on_partner = sales_obj.read_group([("state","=","sales")],
+         #                                                     ["user_id","id:count"],
+         #                                                     ["user_id"])
+         # for partner in total_sales_based_on_partner:
+         #     print(partner)
+
+         #select * from student where student_id =1
+         #search_read(
+         #     domain,
+         #     fields [id, name, student_id]
+         #    offset=101,
+         #    limit=100,
+         #    order="",
+         #    load=None
+         # )
+         #stud_obj = self.env["student.list"]
+         #stud_list = stud_obj.search_read([],["id","name","gender"])
+         #print(stud_list)
+         #print(self.read())
+         #print(self.env['student.list'].read())
          #total_records = self.env['student.list'].search_count([('id','>',10)])
          #print(total_records)
          #print(self.search([], limit=5, offset=0))
@@ -78,6 +127,14 @@ class Student(models.Model):
          #self.print_table(records)
          # search(domain, limit, offset, order)
          #[condition, more conditions]
+
+     def create(self, vals):
+         print(self)
+         print(vals)
+         rtn = super(Student, self).create(vals)
+         print(rtn)
+         return rtn
+
 
      def duplicate_records(self):
          duplicate_record = self.copy()

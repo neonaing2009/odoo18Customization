@@ -1,18 +1,27 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-    <menuitem id="menu_student_root"
+    <menuitem id="menu_hospital_root"
               name="SMS"
-              sequence="39"
+              web_icon="on_hospital,static/description/icon2.png"
+              sequence="35"
     />
 
-    <menuitem id="menu_frontdesk_student"
-              name="Front Desk Student"
-              parent="menu_student_root"
+    <menuitem id="menu_frontdesk"
+              name="Front Desk"
+              parent="menu_hospital_root"
     />
 
-    <menuitem id="menu_student_list"
-              name="Students"
-              parent="menu_frontdesk_student"
+    <menuitem id="menu_students"
+              name="Student"
+              parent="menu_frontdesk"
               action="action_student_list"
     />
+
+    <menuitem id="menu_schools"
+              name="Schools"
+              parent="menu_frontdesk"
+              action="action_school_list"
+    />
+
+
 </odoo>
