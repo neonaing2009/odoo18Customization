@@ -8,7 +8,7 @@
                 <field name="id" readonly="1"/>
                 <field name="name" placeholder="Enter Your Name" />
                 <field name="school_id" options="{'no_create': True, 'no_create_edit':True}"/>
-                <field name="hobby_list" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="hobby_list" options="{'no_create': True, 'no_create_edit':True}" widget="many2many_tags"/>
 
                 <field name="gender"/>
                 <field name="address"/>
@@ -31,6 +31,14 @@
                 <field name="location_html"/>
                 <field name="address_html" options="{'sandboxedPreview':true}"/>
 
+                <field name="s_name"/>
+
+                <field name="s_ref_field_id"/>
+                <field name="s_invoice_id"/>
+                <field name="s_invoice_user_id"/>
+                <field name="s_invoice_date"/>
+
+
             </list>
         </field>
     </record>
@@ -51,7 +59,7 @@
                             <field name="id" readonly="1"/>
                             <field name="name" placeholder="Enter Your Name" />
                             <field name="school_id" options="{'no_create': True, 'no_create_edit':True}"/>
-                            <field name="hobby_list" options="{'no_create': True, 'no_create_edit':True}"/>
+                            <field name="hobby_list" options="{'no_create': True, 'no_create_edit':True}" widget="many2many_tags"/>
                             <field name="gender"/>
                             <field name="address"/>
                             <field name="is_paid"/>
@@ -74,6 +82,15 @@
                         <group>
                             <field name="location_html"/>
                             <field name="address_html" options="{'sandboxedPreview':true}"/>
+
+                        </group>
+                        <group>
+                            <field name="s_name"/>
+
+                            <field name="s_ref_field_id"/>
+                            <field name="s_invoice_id"/>
+                            <field name="s_invoice_user_id"/>
+                            <field name="s_invoice_date"/>
 
                         </group>
 

@@ -4,8 +4,40 @@ class School(models.Model):
     _name = 'school.list'
     _description = "This is school profile."
 
-    name = fields.Char("Name")
-    student_list = fields.One2many('student.list','school_id')
+    name = fields.Char(string="Name")
+    student_list = fields.One2many('student.list','school_id',string="Student List")
+    ref_field_id = fields.Reference(
+        [
+            ('student.list','Student'),
+            ('school.list','Schools'),
+            ('student.hobby','Hobby'),
+            ('sale.order','Sale'),
+            ('account.move','Invoice'),
+            ('purchase.order','Purchase')
+        ]
+    )
+
+    invoice_id = fields.Many2one('account.move')
+    invoice_user_id = fields.Many2one('res.users', related='invoice_id.invoice_user_id', store=True)
+    invoice_date = fields.Date(related='invoice_id.invoice_date')
+    base_id = fields.Integer("Student ID")
+
+    # def create(self, vals):
+    #     print(self)
+    #     print(vals)
+    #     rtn = super(School, self).create(vals)
+    #     print(rtn)
+    #     return rtn
+
+    #@api.model
+    @api.model_create_multi
+    #@api.model_create_single
+    def create(self, vals):
+        print(self)
+        print(vals)
+        rtn = super(School, self).create(vals)
+        print(rtn)
+        return rtn
 
 class Student(models.Model):
      _name = 'student.list'
@@ -43,6 +75,27 @@ class Student(models.Model):
 
      student_image = fields.Image(string='Student Image', max_width=128, max_height=128)
 
+     ######Create New School Copy to Create###
+     s_name = fields.Char(string="School NewName")
+     s_student_list = fields.One2many('student.list', 'school_id', string="School Student List")
+     s_ref_field_id =fields.Reference(
+         [
+             ('student.list', 'Student'),
+             ('school.list', 'Schools'),
+             ('student.hobby', 'Hobby'),
+             ('sale.order', 'Sale'),
+             ('account.move', 'Invoice'),
+             ('purchase.order', 'Purchase')
+         ]
+     )
+
+     s_invoice_id = fields.Many2one('account.move')
+     #s_iv_id = fields.Many2one(related='s_invoice_id.id')
+     s_invoice_user_id = fields.Many2one('res.users', related='s_invoice_id.invoice_user_id', store=True)
+     s_invoice_date = fields.Date(related='s_invoice_id.invoice_date')
+
+     ######End ####
+
 
      @api.depends('product_tmp_id.list_price')
      def _compute_price(self):
@@ -69,8 +122,37 @@ class Student(models.Model):
                              "amount":self.amount,
                              "student_image":self.student_image
                              }]
+
+     def check_reference(self):
+
+       for record in self:
+           model_name, record_id = record.s_ref_field_id.split(',')
+           referenced_record = self.env[model_name].browse(int(record_id))
+           records = referenced_record
+           return  records
+
+
+
      def custom_method(self):
          print("Hello Click")
+         s_id = self.s_student_list.id
+         s_ref_o = self.s_ref_field_id._name #Model Name
+         s_ref = self.s_ref_field_id.id
+         ref_val = f"{s_ref_o},{s_ref}"
+
+
+
+         #print(s_ref_o)
+         data = {"name":self.s_name,
+                 "ref_field_id": ref_val,
+                 "student_list": s_id,
+                 "invoice_id": self.s_invoice_id.id,
+                 "invoice_user_id": self.s_invoice_user_id.id,
+                 "invoice_date": self.s_invoice_date,
+                 "base_id": self.id
+                 }
+         print(data)
+         self.env['school.list'].create(data)
 
          # select * from student where shcool_id = 1;
          # search_read(

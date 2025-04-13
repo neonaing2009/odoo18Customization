@@ -7,7 +7,12 @@
             <list string="Schools">
                 <field name="id" readonly="1"/>
                 <field name="name" placeholder="Enter Your Name" />
-                <field name="student_list"/>
+                <!--<field name="student_list" widget="one2many_tags"/>-->
+                <field name="ref_field_id" string="Ref Fields"/>
+                <field name="invoice_id"/>
+                <field name="invoice_user_id"/>
+                <field name="invoice_date"/>
+                <field name="base_id" invisible="True"/>
 
 
 
@@ -20,9 +25,20 @@
         <field name="model">school.list</field>
         <field name="arch" type="xml">
             <form string="School">
-                <field name="id" readonly="1"/>
-                <field name="name"/>
-                <field name="student_list"/>
+                <group>
+                    <group>
+
+                        <field name="id" readonly="1"/>
+                        <field name="name" string="Schools Name"/>
+                         <!--<field name="student_list" widget="one2many_tags"/>-->
+                        <field name="ref_field_id" string="Ref Fields"/>
+                        <field name="invoice_id"/>
+                        <field name="invoice_user_id"/>
+                        <field name="invoice_date"/>
+                        <field name="base_id" invisible="True"/>
+                    </group>
+                </group>
+
 
             </form>
         </field>
