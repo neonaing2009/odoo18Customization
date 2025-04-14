@@ -1,4 +1,5 @@
 from odoo import models, fields, api
+from odoo.exceptions import UserError
 
 class School(models.Model):
     _name = 'school.list'
@@ -33,9 +34,41 @@ class School(models.Model):
     @api.model_create_multi
     #@api.model_create_single
     def create(self, vals):
+        #print(self)
+        #print(vals)
+        rtn = super(School, self).create(vals)
+        #print(rtn)
+        return rtn
+
+    def custom_method(self):
+        #print("Custom Method clicked")
+        #print(self)
+
+        #self.name = 'Bago U1'
+
+        #self.update({'name':'Bago U2'})
+        #self.write({"name": "Write Update"})
+
+        #records = self.search([], limit=5)
+        #print(records)
+
+        # for rec in records:
+        #     rec.write({"name": rec.id})
+
+        pass
+
+    def write(self, vals):
+        print("Write method called!")
         print(self)
         print(vals)
-        rtn = super(School, self).create(vals)
+        rtn = super(School, self).write(vals)
+        print(rtn)
+        return rtn
+
+    def unlink(self):
+        print("unlink method call!")
+        print(self)
+        rtn = super(School, self).unlink()
         print(rtn)
         return rtn
 
@@ -93,6 +126,7 @@ class Student(models.Model):
      #s_iv_id = fields.Many2one(related='s_invoice_id.id')
      s_invoice_user_id = fields.Many2one('res.users', related='s_invoice_id.invoice_user_id', store=True)
      s_invoice_date = fields.Date(related='s_invoice_id.invoice_date')
+     target_id = fields.Integer(string='School Target id')
 
      ######End ####
 
@@ -123,15 +157,24 @@ class Student(models.Model):
                              "student_image":self.student_image
                              }]
 
-     def check_reference(self):
-
-       for record in self:
-           model_name, record_id = record.s_ref_field_id.split(',')
-           referenced_record = self.env[model_name].browse(int(record_id))
-           records = referenced_record
-           return  records
 
 
+
+     def create_school_method(self):
+         s_id = self.s_student_list.id
+         s_ref_o = self.s_ref_field_id._name #Model Name
+         s_ref = self.s_ref_field_id.id
+         ref_val = f"{s_ref_o},{s_ref}"
+         data = {"name":self.s_name,
+                 "ref_field_id": ref_val,
+                 "student_list": s_id,
+                 "invoice_id": self.s_invoice_id.id,
+                 "invoice_user_id": self.s_invoice_user_id.id,
+                 "invoice_date": self.s_invoice_date,
+                 "base_id": self.id
+                 }
+         newschool=self.env['school.list'].create(data)
+         self.target_id = newschool.id
 
      def custom_method(self):
          print("Hello Click")
@@ -151,8 +194,9 @@ class Student(models.Model):
                  "invoice_date": self.s_invoice_date,
                  "base_id": self.id
                  }
-         print(data)
+         #print(data)
          self.env['school.list'].create(data)
+
 
          # select * from student where shcool_id = 1;
          # search_read(
@@ -227,6 +271,21 @@ class Student(models.Model):
      def copy(self, default=None):
         rtn = super(Student, self).copy(default=default)
         return rtn
+
+     def delete_records(self):
+         #print(self)
+         schoold_id = self.env['school.list'].browse(self.school_id.id)
+         for school in schoold_id:
+             if not school.exists():
+                 raise UserError(f"Recordset is not available!{school}" )
+                 print("Instance or Recordset is not available", school)
+
+             else:
+                 print("Instance or Recordset is available", school)
+         schoold_id.unlink()
+         #print(schoold_id)
+         #print(schoold_id.unlink())
+         #print(self.school_id.id)
 
      def print_table(self, records):
          print(f"Total Records Found :- {len(records)}")

@@ -37,6 +37,7 @@
                 <field name="s_invoice_id"/>
                 <field name="s_invoice_user_id"/>
                 <field name="s_invoice_date"/>
+                <field name="target_id" invisible="True"/>
 
 
             </list>
@@ -52,6 +53,9 @@
                     <button name="custom_method" type="object" string="Custom Method"/>
                     <button name="duplicate_records" type="object" string="Duplicate Records"/>
                     <button name="copy" type="object" string="Copy"/>
+                    <button name="create_school_method" type="object" string="Create School"/>
+                    <button name="delete_records" type="object" string="School(Delete/Unlink)"/>
+
                 </header>
                 <sheet>
                     <group>
@@ -91,6 +95,8 @@
                             <field name="s_invoice_id"/>
                             <field name="s_invoice_user_id"/>
                             <field name="s_invoice_date"/>
+                            <field name="target_id" invisible="True"/>
+
 
                         </group>
 

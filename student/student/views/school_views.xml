@@ -25,6 +25,9 @@
         <field name="model">school.list</field>
         <field name="arch" type="xml">
             <form string="School">
+                <header>
+                     <button name="custom_method" type="object" string="Custom Method"/>
+                </header>
                 <group>
                     <group>
 
