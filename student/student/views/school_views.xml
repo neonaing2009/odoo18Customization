@@ -9,6 +9,7 @@
                 <field name="name" placeholder="Enter Your Name" />
                 <!--<field name="student_list" widget="one2many_tags"/>-->
                 <field name="ref_field_id" string="Ref Fields"/>
+                <field name="amount"/>
                 <field name="invoice_id"/>
                 <field name="invoice_user_id"/>
                 <field name="invoice_date"/>
@@ -35,6 +36,7 @@
                         <field name="name" string="Schools Name"/>
                          <!--<field name="student_list" widget="one2many_tags"/>-->
                         <field name="ref_field_id" string="Ref Fields"/>
+                        <field name="amount"/>
                         <field name="invoice_id"/>
                         <field name="invoice_user_id"/>
                         <field name="invoice_date"/>

@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
 class School(models.Model):
@@ -22,6 +22,7 @@ class School(models.Model):
     invoice_user_id = fields.Many2one('res.users', related='invoice_id.invoice_user_id', store=True)
     invoice_date = fields.Date(related='invoice_id.invoice_date')
     base_id = fields.Integer("Student ID")
+    amount = fields.Float(string="Amount")
 
     # def create(self, vals):
     #     print(self)
@@ -54,8 +55,58 @@ class School(models.Model):
 
         # for rec in records:
         #     rec.write({"name": rec.id})
+        #in
+        #("a","b","c","d")
+        # records = self.search([("name","in",('Bago','Student University','USA CollageUpdate'))])
+        # self.print_table(records)
+
+        #child_of
+        # records = self.env['stock.location'].search([("location_id","child_of",1)])
+        # self.print_location(records)
+
+        #parent_of
+        #A 1
+        #-> B 6
+        #-> C 8
+        #   -> D 9
+        #       ->F 10
+        # records = self.env['stock.location'].search([("location_id","parent_of", 7)])
+        # self.print_location(records)
+
+        #Join Query
+        # records = self.env["student.list"].search([("school_id","any",[('name','ilike','USA')])])
+        # self.print_joinsearch(records)
+
+        #Join Query and or
+        # records = self.env["student.list"].search([("school_id", "any", ['|',('name', 'ilike', 'USA'),('amount','=',0)])])
+        # self.print_joinsearch(records)
+
+        # Join Query Not or
+        # records = self.env["student.list"].search(
+        #     [("school_id", "not any", ['|', ('name', 'ilike', 'USA'), ('amount', '=', 0)])])
+        # self.print_joinsearch(records)
+
+        #
+        records = self.env['student.list'].search([("school_id.name","ilike", "USA")])
+        self.print_joinsearch(records)
+
 
         pass
+    def print_joinsearch(self, records):
+        print(f"Join Table and record")
+        print("ID       Name")
+        for rec in records:
+            print(f"{rec.id}        {rec.name}")
+        print("")
+        print("")
+
+    def print_location(self, records):
+        print(f"Total Record Found :- {len(records)}")
+        print("ID       Name        Parent")
+        for rec in records:
+            print(f"{rec.id}        {rec.name}      {rec.location_id.name} / {rec.location_id.id}")
+        print("")
+        print("")
 
     def write(self, vals):
         print("Write method called!")
@@ -71,6 +122,14 @@ class School(models.Model):
         rtn = super(School, self).unlink()
         print(rtn)
         return rtn
+
+    def print_table(self, records):
+        print(f"Total Records Found :- {len(records)}")
+        print("ID      Name        Amount")
+        for rec in records:
+            print(f"{rec.id}       {rec.name}      {rec.amount}")
+        print("")
+        print("")
 
 class Student(models.Model):
      _name = 'student.list'
@@ -104,7 +163,7 @@ class Student(models.Model):
      binary_field_many = fields.Many2many('ir.attachment', string='Muti Files')
      my_currency_id = fields.Many2one('res.currency', string='(My Currency)')
      #currency_id = fields.Many2one('res.currency', string='Currency')
-     amount = fields.Monetary(string='Amount', currency_field='my_currency_id')
+     amount = fields.Monetary(string='Amount', currency_field='my_currency_id', default=0)
 
      student_image = fields.Image(string='Student Image', max_width=128, max_height=128)
 
@@ -177,25 +236,25 @@ class Student(models.Model):
          self.target_id = newschool.id
 
      def custom_method(self):
-         print("Hello Click")
-         s_id = self.s_student_list.id
-         s_ref_o = self.s_ref_field_id._name #Model Name
-         s_ref = self.s_ref_field_id.id
-         ref_val = f"{s_ref_o},{s_ref}"
+          print("Hello Click")
+         # s_id = self.s_student_list.id
+         # s_ref_o = self.s_ref_field_id._name #Model Name
+         # s_ref = self.s_ref_field_id.id
+         # ref_val = f"{s_ref_o},{s_ref}"
 
 
 
          #print(s_ref_o)
-         data = {"name":self.s_name,
-                 "ref_field_id": ref_val,
-                 "student_list": s_id,
-                 "invoice_id": self.s_invoice_id.id,
-                 "invoice_user_id": self.s_invoice_user_id.id,
-                 "invoice_date": self.s_invoice_date,
-                 "base_id": self.id
-                 }
+         # data = {"name":self.s_name,
+         #         "ref_field_id": ref_val,
+         #         "student_list": s_id,
+         #         "invoice_id": self.s_invoice_id.id,
+         #         "invoice_user_id": self.s_invoice_user_id.id,
+         #         "invoice_date": self.s_invoice_date,
+         #         "base_id": self.id
+         #         }
          #print(data)
-         self.env['school.list'].create(data)
+         # self.env['school.list'].create(data)
 
 
          # select * from student where shcool_id = 1;
@@ -274,14 +333,20 @@ class Student(models.Model):
 
      def delete_records(self):
          #print(self)
-         schoold_id = self.env['school.list'].browse(self.school_id.id)
-         for school in schoold_id:
-             if not school.exists():
-                 raise UserError(f"Recordset is not available!{school}" )
-                 print("Instance or Recordset is not available", school)
-
-             else:
-                 print("Instance or Recordset is available", school)
+         #print(self.school_id)
+         schoold_id = self.env['school.list'].browse(self.school_id.id) #self.school_id.id
+         #print(schoold_id.id)
+         if not schoold_id.id:
+             raise UserError(_("Schoold Id is not available"))
+         else:
+             print(f"School Id is available and Remove Action. {schoold_id.id}")
+         # for school in schoold_id:
+         #     if not school.id:
+         #         raise UserError(_(f"Recordset is not available!{school}" ))
+         #         print("Instance or Recordset is not available", school)
+         #
+         #     else:
+         #         print("Instance or Recordset is available", school)
          schoold_id.unlink()
          #print(schoold_id)
          #print(schoold_id.unlink())
