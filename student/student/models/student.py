@@ -1,12 +1,16 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 
+
+
+
 class School(models.Model):
     _name = 'school.list'
     _description = "This is school profile."
 
     name = fields.Char(string="Name")
-    student_list = fields.One2many('student.list','school_id',string="Student List")
+    #student_list = fields.Many2one('student.list','school_id',string="Student List")
+    s_id = fields.Many2one('student.list', string='S New Student ID')
     ref_field_id = fields.Reference(
         [
             ('student.list','Student'),
@@ -22,7 +26,7 @@ class School(models.Model):
     invoice_user_id = fields.Many2one('res.users', related='invoice_id.invoice_user_id', store=True)
     invoice_date = fields.Date(related='invoice_id.invoice_date')
     base_id = fields.Integer("Student ID")
-    amount = fields.Float(string="Amount")
+    amount = fields.Float(string="Amount", default=0)
 
     # def create(self, vals):
     #     print(self)
@@ -32,16 +36,80 @@ class School(models.Model):
     #     return rtn
 
     #@api.model
-    @api.model_create_multi
+    #@api.model_create_multi
     #@api.model_create_single
-    def create(self, vals):
-        #print(self)
-        #print(vals)
-        rtn = super(School, self).create(vals)
-        #print(rtn)
-        return rtn
+    # def create(self, vals):
+    #     #print(self)
+    #     #print(vals)
+    #     print("Main Create Method ", self)
+    #     rtn = super(School, self).create(vals)
+    #     #print(rtn)
+    #     return rtn
+    #
+    # @api.model
+    # def name_create(self,name):
+    #     print("Name Create Method ", self, name)
+    #     # rtn = super(School, self).name_create(name)
+    #     # print(rtn)
+    #     rtn = self.create({'name':name})
+    #     return rtn.id, rtn.display_name
+    #     #return rtn
 
     def custom_method(self):
+
+        #select * from student where school_id =1;
+        #search_read(
+        #    domain,
+        #   fields[id,name,student_id],
+        #   offset=101
+        #   limit=100
+        #   orders=";
+        #   load=None
+        #)
+
+        #recordset => json use this method => read
+        #search_read => json
+        stud_obj = self.env['student.list']
+        stud_list = stud_obj.search_read([('school_id','>',2)],['id','name','school_id'],limit=4, order='school_id desc')
+        print(stud_list)
+
+        stud_list = stud_obj.search_read([('school_id','>',2)],['id','name','school_id'],limit=4, order='school_id desc', load=None)
+        print(stud_list)
+
+
+        # self.read_group(domain,
+        #                 fields,
+        #                 groupby,
+        #                 limit=
+        #                 order by ='',
+        #                 lazy=True, False)
+
+        # student_group_by_school = self.env['student.list'].read_group([],
+        #                                                               ['school_id',"gender"],
+        #                                                               ['school_id',"gender"],
+        #                                                              lazy=False)
+        # for stud in student_group_by_school:
+        #     print(stud)
+
+        # sale_obj = self.env['sale.order']
+        # total_sales_order_based_on_state = sale_obj.read_group([],
+        #                                                          ['user_id','amount_total:max'],
+        #                                                          ['user_id'])
+        #
+        # for sale in total_sales_order_based_on_state:
+        #     print(sale)
+
+
+        #sum,avg,month,count
+        # print(self.read())
+        # abc = self.env['student.list'].search([])
+        # print(abc.read(fields=["name","school_id"], load=None))
+        # print(abc)
+        #total_records = self.env['student.list'].search_count([])
+        #total_records = self.env['student.list'].search_count([], limit=10)
+        # print(self.env['student.list'].search([]))
+        # total_records = self.env['student.list'].search_count([('id','>',10)])
+        # print(total_records)
         #print("Custom Method clicked")
         #print(self)
 
@@ -87,11 +155,10 @@ class School(models.Model):
         # self.print_joinsearch(records)
 
         #
-        records = self.env['student.list'].search([("school_id.name","ilike", "USA")])
-        self.print_joinsearch(records)
-
-
+        # records = self.env['student.list'].search([("school_id.name","ilike", "USA")])
+        # self.print_joinsearch(records)
         pass
+
     def print_joinsearch(self, records):
         print(f"Join Table and record")
         print("ID       Name")
@@ -116,10 +183,21 @@ class School(models.Model):
         print(rtn)
         return rtn
 
-    def unlink(self):
-        print("unlink method call!")
-        print(self)
-        rtn = super(School, self).unlink()
+    # def unlink(self):
+    #     print("unlink method call!")
+    #     print(self)
+    #     rtn = super(School, self).unlink()
+    #     print(rtn)
+    #     return rtn
+
+    @api.model
+    def default_get(self, fields_list):
+        print("Default Get Method",self, fields_list)
+        rtn = super(School, self).default_get(fields_list)
+        #{'name':'Sunny Leone', amount=20000}
+        rtn['name']= "Technology University"
+        rtn['amount'] =20000
+        
         print(rtn)
         return rtn
 
@@ -189,6 +267,14 @@ class Student(models.Model):
 
      ######End ####
 
+     @api.model
+     def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
+         print("_name_search")
+         print(name, domain, operator, limit, order)
+         domain = ["|",("name",operator, name),("gender", operator, name)]
+         rtn = self._search(domain, limit=limit, order=order)
+         print(rtn)
+         return rtn
 
      @api.depends('product_tmp_id.list_price')
      def _compute_price(self):

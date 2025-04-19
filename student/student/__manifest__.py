@@ -11,8 +11,7 @@
     'depends': [
         'mail',
         'base',
-        'account'
-    ],
+        'account'],
 
     # always loaded
     "data": [
