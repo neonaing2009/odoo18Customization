@@ -1,5 +1,6 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
+from lxml import etree
 
 
 
@@ -25,8 +26,33 @@ class School(models.Model):
     invoice_id = fields.Many2one('account.move')
     invoice_user_id = fields.Many2one('res.users', related='invoice_id.invoice_user_id', store=True)
     invoice_date = fields.Date(related='invoice_id.invoice_date')
-    base_id = fields.Integer("Student ID")
+    base_id = fields.Integer("Base ID")
     amount = fields.Float(string="Amount", default=0)
+
+    @api.model
+    def get_view(self, view_id=None, view_type="form", **options):
+
+        rtn = super(School, self).get_view(view_id=view_id, view_type=view_type, **options)
+        if view_type == "form" and "arch" in rtn:
+            print(self, view_id, view_type, options)
+            doc = etree.fromstring(rtn["arch"])
+
+            # school_field = etree.Element("field", {"name":"s_id"})
+            # target_field = doc.xpath("//field[@name='name']")#, position=after,before,inside,attributes,replace
+            # if target_field:
+            #     target_field[0].addprevious(school_field)
+
+            target_field = doc.xpath("//field[@name='name']")
+            if target_field:
+                target_field[0].set("string", "School Name!")
+                target_field[0].set("invisible","True")
+
+
+
+            rtn['arch']= etree.tostring(doc, encoding="unicode")
+
+            print(rtn)
+        return rtn
 
     # def create(self, vals):
     #     print(self)
