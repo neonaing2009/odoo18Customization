@@ -45,10 +45,7 @@ class School(models.Model):
             target_field = doc.xpath("//field[@name='name']")
             if target_field:
                 target_field[0].set("string", "School Name!")
-                target_field[0].set("invisible","True")
-
-
-
+                target_field[0].set("invisible","False")
             rtn['arch']= etree.tostring(doc, encoding="unicode")
 
             print(rtn)
@@ -81,7 +78,55 @@ class School(models.Model):
     #     return rtn.id, rtn.display_name
     #     #return rtn
 
+    def sub_custom_method(self):
+        print("Sub Custom method!!")
+        self.ensure_one()
+        print(self)
+        print(self.name)
+
+
     def custom_method(self):
+        print("Custom Method")
+        #print(self)
+        student_obj = self.env['student.list']
+        student_ids = student_obj.search([])
+        #print(student_ids)
+
+        # student_price = []
+        #
+        # for student in student_ids:
+        #     student_price.append(student.amount)
+        student_collected = self.env['student.list'].search([]).mapped("school_id").mapped("name")
+
+        student_price = student_ids.mapped("amount")
+
+        print(student_collected)
+        #print(sum(student_collected))
+        print(student_price)
+        print(sum(student_price))
+
+
+        # Lambda Function Start
+        # students = self.env['student.list'].search([])
+        # print(students)
+        #
+        # student_filtered = self.env['student.list'].search([("name","ilike","Wah")])
+        # print(student_filtered)
+        #
+        # stud_obj = self.env['student.list']
+        # for stud in students:
+        #     if "Khine" in str(stud.name):
+        #         stud_obj += stud
+        #
+        # print(stud_obj)
+        #
+        # stud_obj = students.filtered(lambda stud: "Khine" in str(stud.name))
+        # print(stud_obj)
+        #Lambda Function End
+
+
+        # print(self)
+        # self.sub_custom_method()
 
         #select * from student where school_id =1;
         #search_read(
@@ -95,12 +140,12 @@ class School(models.Model):
 
         #recordset => json use this method => read
         #search_read => json
-        stud_obj = self.env['student.list']
-        stud_list = stud_obj.search_read([('school_id','>',2)],['id','name','school_id'],limit=4, order='school_id desc')
-        print(stud_list)
-
-        stud_list = stud_obj.search_read([('school_id','>',2)],['id','name','school_id'],limit=4, order='school_id desc', load=None)
-        print(stud_list)
+        # stud_obj = self.env['student.list']
+        # stud_list = stud_obj.search_read([('school_id','>',2)],['id','name','school_id'],limit=4, order='school_id desc')
+        # print(stud_list)
+        #
+        # stud_list = stud_obj.search_read([('school_id','>',2)],['id','name','school_id'],limit=4, order='school_id desc', load=None)
+        # print(stud_list)
 
 
         # self.read_group(domain,
