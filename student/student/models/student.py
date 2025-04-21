@@ -88,9 +88,18 @@ class School(models.Model):
     def custom_method(self):
         print("Custom Method")
         #print(self)
+
+        #Fileds Get Method start
+        stud_obj = self.env['student.list']
+        print(stud_obj.fields_get(allfields=['id','name','school_id'], attributes=['name', 'string']))
+
+        #Filed Get Method End
+
+
+
         #group method start
-        student_list = self.env['student.list'].search([])
-        print(student_list)
+        # student_list = self.env['student.list'].search([])
+        # print(student_list)
 
         # student_group_list = student_list.grouped(key='school_id')
         # print(student_group_list)
@@ -100,15 +109,13 @@ class School(models.Model):
         #     for stud in student_group_list[key]:
         #         print(f" {stud.name}")
 
-        student_group_list = student_list.grouped(key='gender')
-        print(student_group_list)
-
-        for key in student_group_list:
-            print(key)
-            for stud in student_group_list[key]:
-                print(f" {stud.name}")
-
-
+        # student_group_list = student_list.grouped(key='gender')
+        # print(student_group_list)
+        #
+        # for key in student_group_list:
+        #     print(key)
+        #     for stud in student_group_list[key]:
+        #         print(f" {stud.name}")
         #group method end
 
 
