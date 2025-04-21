@@ -89,9 +89,14 @@ class School(models.Model):
         print("Custom Method")
         #print(self)
 
+        print(self.get_metadata())
+
+        for stud in self.env['student.list'].search([]):
+            print(stud, "   ",stud.name,"   ", stud.get_metadata())
+
         #Fileds Get Method start
-        stud_obj = self.env['student.list']
-        print(stud_obj.fields_get(allfields=['id','name','school_id'], attributes=['name', 'string']))
+        # stud_obj = self.env['student.list']
+        # print(stud_obj.fields_get(allfields=['id','name','school_id'], attributes=['name', 'string']))
 
         #Filed Get Method End
 
