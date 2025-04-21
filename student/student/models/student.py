@@ -88,10 +88,33 @@ class School(models.Model):
     def custom_method(self):
         print("Custom Method")
         #print(self)
+        #group method start
+        student_list = self.env['student.list'].search([])
+        print(student_list)
+
+        # student_group_list = student_list.grouped(key='school_id')
+        # print(student_group_list)
+        #
+        # for key in student_group_list:
+        #     print(key.name)
+        #     for stud in student_group_list[key]:
+        #         print(f" {stud.name}")
+
+        student_group_list = student_list.grouped(key='gender')
+        print(student_group_list)
+
+        for key in student_group_list:
+            print(key)
+            for stud in student_group_list[key]:
+                print(f" {stud.name}")
+
+
+        #group method end
+
 
         #Sorted Start
-        stud = self.env['student.list'].search([])
-        print(stud)
+        # stud = self.env['student.list'].search([])
+        # print(stud)
         #
         # stud = self.env['student.list'].search([], order='school_id')
         # print(stud)
@@ -99,16 +122,14 @@ class School(models.Model):
         # stud = self.env['student.list'].search([], order='school_id desc')
         # print(stud)
 
-        stud_list = stud.sorted(key= lambda stud: stud.school_id.id)
-        print(stud_list)
-
-        stud_list = stud.sorted(key=lambda stud: stud.school_id.id, reverse=True)
-        print(stud_list)
-
-        stud_list = stud.sorted(key=lambda stud: stud.id, reverse=True)
-        print(stud_list)
-
-
+        # stud_list = stud.sorted(key= lambda stud: stud.school_id.id)
+        # print(stud_list)
+        #
+        # stud_list = stud.sorted(key=lambda stud: stud.school_id.id, reverse=True)
+        # print(stud_list)
+        #
+        # stud_list = stud.sorted(key=lambda stud: stud.id, reverse=True)
+        # print(stud_list)
 
         #Sorted End
 
