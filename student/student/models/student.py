@@ -88,23 +88,49 @@ class School(models.Model):
     def custom_method(self):
         print("Custom Method")
         #print(self)
-        student_obj = self.env['student.list']
-        student_ids = student_obj.search([])
+
+        #Sorted Start
+        stud = self.env['student.list'].search([])
+        print(stud)
+        #
+        # stud = self.env['student.list'].search([], order='school_id')
+        # print(stud)
+        #
+        # stud = self.env['student.list'].search([], order='school_id desc')
+        # print(stud)
+
+        stud_list = stud.sorted(key= lambda stud: stud.school_id.id)
+        print(stud_list)
+
+        stud_list = stud.sorted(key=lambda stud: stud.school_id.id, reverse=True)
+        print(stud_list)
+
+        stud_list = stud.sorted(key=lambda stud: stud.id, reverse=True)
+        print(stud_list)
+
+
+
+        #Sorted End
+
+        #mapped method start
+
+        # student_obj = self.env['student.list']
+        # student_ids = student_obj.search([])
         #print(student_ids)
 
         # student_price = []
         #
         # for student in student_ids:
         #     student_price.append(student.amount)
-        student_collected = self.env['student.list'].search([]).mapped("school_id").mapped("name")
-
-        student_price = student_ids.mapped("amount")
-
-        print(student_collected)
-        #print(sum(student_collected))
-        print(student_price)
-        print(sum(student_price))
-
+        # student_collected = self.env['student.list'].search([]).mapped("school_id").mapped("name")
+        #
+        # student_price = student_ids.mapped("amount")
+        #
+        # print(student_collected)
+        # #print(sum(student_collected))
+        # print(student_price)
+        # print(sum(student_price))
+        #Mapped Method end
 
         # Lambda Function Start
         # students = self.env['student.list'].search([])
