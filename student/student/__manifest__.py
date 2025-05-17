@@ -11,15 +11,19 @@
     'depends': [
         'mail',
         'base',
-        'account'],
+        'account',
+        'stock'],
 
     # always loaded
     "data": [
         'security/ir.model.access.csv',
+
         'views/student_views.xml',
         'views/school_views.xml',
         'views/hobby_views.xml',
+        'views/stock_warehouse_views.xml',
         'views/menu.xml',
+
 
     ]
 

@@ -12,6 +12,13 @@ class HospitalPatient(models.Model):
 
     tag_ids = fields.Many2many('patient.tag', 'patient_tag_rel', 'patient_id','tag_id', string="Tags")
 
+    def name_get(self):
+        result = []
+        for rec in self:
+            name = '[' + rec.id + ']' + rec.name+' ' + rec.gender
+            result.append((rec.id, name))
+        return result
+
     @api.ondelete(at_uninstall=False)
     def _check_patient_appointment(self):
         for rec in self:

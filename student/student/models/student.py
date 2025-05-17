@@ -11,6 +11,7 @@ class School(models.Model):
 
     name = fields.Char(string="Name")
     #student_list = fields.Many2one('student.list','school_id',string="Student List")
+    description = fields.Char(string="Schools Description")
     s_id = fields.Many2one('student.list', string='S New Student ID')
     ref_field_id = fields.Reference(
         [
@@ -77,6 +78,17 @@ class School(models.Model):
     #     rtn = self.create({'name':name})
     #     return rtn.id, rtn.display_name
     #     #return rtn
+
+    def name_get(self):
+        result = []
+        print("...Context...", self.env.context)
+        for rec in self:
+            if self.env.context.get('show_code'):
+                name ='[' + rec.id + ']' + rec.description
+            else:
+                name = rec.description
+            result.append((rec.id, name))
+        return result
 
     def sub_custom_method(self):
         print("Sub Custom method!!")
@@ -394,6 +406,7 @@ class Student(models.Model):
      s_invoice_user_id = fields.Many2one('res.users', related='s_invoice_id.invoice_user_id', store=True)
      s_invoice_date = fields.Date(related='s_invoice_id.invoice_date')
      target_id = fields.Integer(string='School Target id')
+     warehouse_id = fields.Many2one('stock.warehouse',string='Warehouse', required=True,)
 
      ######End ####
 
@@ -588,3 +601,4 @@ class Hobby(models.Model):
     _description = "This is student hobbies."
 
     name = fields.Char("Name")
+

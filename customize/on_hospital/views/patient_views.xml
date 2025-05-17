@@ -5,6 +5,7 @@
         <field name="model">hospital.patient</field>
         <field name="arch" type="xml">
             <list string="Patients">
+                <field name="id" />
                 <field name="name"/>
                 <field name="date_of_birth" optional="show"/>
                 <field name="gender" optional="hide"/>
@@ -20,6 +21,7 @@
                 <sheet>
                     <group>
                         <group>
+                            <field name="id"/>
                             <field name="name"/>
                             <field name="date_of_birth"/>
 
