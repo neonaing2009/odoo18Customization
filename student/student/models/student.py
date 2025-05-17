@@ -1,9 +1,10 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError
 from lxml import etree
+import logging
 
 
-
+_logger = logging.getLogger(__name__)
 
 class School(models.Model):
     _name = 'school.list'
@@ -79,16 +80,7 @@ class School(models.Model):
     #     return rtn.id, rtn.display_name
     #     #return rtn
 
-    def name_get(self):
-        result = []
-        print("...Context...", self.env.context)
-        for rec in self:
-            if self.env.context.get('show_code'):
-                name ='[' + rec.id + ']' + rec.description
-            else:
-                name = rec.description
-            result.append((rec.id, name))
-        return result
+
 
     def sub_custom_method(self):
         print("Sub Custom method!!")
@@ -100,11 +92,63 @@ class School(models.Model):
     def custom_method(self):
         print("Custom Method")
         #print(self)
+        query = """
+             SELECT t4.id,
+                t4.product_id AS product_code,
+                t4.location_id,
+                t4.lot_id,
+                t4.quantity AS Product_Qty,
+                t4.reserved_quantity AS committed,
+                t4.expiration_date AS Product_ExpireDate,
+                t3.name AS product_name,
+                t3.default_code AS Internal_Reference,
+                t3.weight AS Product_weight,
+                t3.volume AS Product_Volume,
+                t3.tracking AS Product_Tracking,
+                t3.list_price AS Price,
+                t3.description_sale AS Specification,
+                t3.type AS Product_Type,
+                t5.warehouse_id AS WH_ID,
+                t5.complete_name AS Location_Name,
+                t5.usage AS Location_Type,
+                t5.parent_path AS Location_Parent_ID,
+                t5.active AS Empty,
+                t6.name AS lot_Serial,
+                t6.expiration_date AS Exp_Days,
+                t6.use_date AS Use_Date,
+                t6.removal_date AS Removal_Days,
+                t6.alert_date AS Alert_Date
+            FROM stock_quant t4
+            JOIN ( SELECT t0.id,
+             t0.default_code,
+             t0.weight,
+             t0.volume,
+             t1.name ->> 'en_US'::text AS name,
+             t1.tracking,
+             t1.list_price,
+             t1.description_sale ->> 'en_US'::text AS description_sale,
+             t1.type
+            FROM product_product t0
+            JOIN product_template t1 ON t0.product_tmpl_id = t1.id) t3 ON t4.product_id = t3.id
+            LEFT JOIN stock_location t5 ON t4.location_id = t5.id
+            LEFT JOIN stock_lot t6 ON t4.lot_id = t6.id AND t4.product_id = t6.product_id AND t4.location_id = t6.location_id
+            WHERE t5.warehouse_id IS NOT NULL;
+        
+        """
+        self.env.cr.execute(query)
+        rows = self.env.cr.fetchall()
 
-        print(self.get_metadata())
+        for row in rows:
+            _logger.info("ID: %s, Product code: %s,location id: %s,Product Name: %s,Complete Name: %s", row[0], row[1],row[2],row[7], row[16])  # Appears in logs
+            print("ID:", row[0], "| Product code:", row[1],"| Location ID:", row[2],"| Product Name:", row[7],"| Complete Name:", row[16])  # Shows in terminal
 
-        for stud in self.env['student.list'].search([]):
-            print(stud, "   ",stud.name,"   ", stud.get_metadata())
+
+
+
+        # print(self.get_metadata())
+        #
+        # for stud in self.env['student.list'].search([]):
+        #     print(stud, "   ",stud.name,"   ", stud.get_metadata())
 
         #Fileds Get Method start
         # stud_obj = self.env['student.list']
