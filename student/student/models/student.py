@@ -6,6 +6,12 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+class DemoSchool(models.Model):
+    _name = "demo.school"
+    _description = "This is demo school profile"
+
+    name = fields.Char(string="School Name")
+
 class School(models.Model):
     _name = 'school.list'
     _description = "This is school profile."
