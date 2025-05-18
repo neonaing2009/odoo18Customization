@@ -89,7 +89,7 @@ class School(models.Model):
         print(self.name)
 
 
-    def custom_method(self):
+    def custom_method1(self):
         print("Custom Method")
         #print(self)
         query = """
@@ -343,6 +343,32 @@ class School(models.Model):
         #
         # records = self.env['student.list'].search([("school_id.name","ilike", "USA")])
         # self.print_joinsearch(records)
+        pass
+
+    def custom_method(self):
+        print("Custom Method")
+        #print(self)
+
+        #search_fetch(domain, fields_list, offset, limit, order)
+        #Recordset
+
+        # stud_obj = self.search_fetch([],['id','name'])
+        # print(stud_obj)
+        #
+        # for school in stud_obj:
+        #     print(school.id, school.name)
+
+        query = """
+            SELECT * FROM Views.Combine
+                """
+        self.env.cr.execute(query)
+        rows = self.env.cr.fetchall()
+
+        for row in rows:
+            _logger.info("ID: %s, Product code: %s,location id: %s,Product Name: %s,Complete Name: %s", row[0], row[1],row[2],row[7], row[16])  # Appears in logs
+            print("ID:", row[0], "| Product code:", row[1],"| Location ID:", row[2],"| Product Name:", row[7],"| Complete Name:", row[16])  # Shows in terminal
+
+
         pass
 
     def print_joinsearch(self, records):
